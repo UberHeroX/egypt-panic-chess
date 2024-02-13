@@ -1,4 +1,5 @@
 import pygame
+import Tile
 
 class Piece:
     Image = None
@@ -12,6 +13,7 @@ class Piece:
     def create_collider(self):
        self.Collider = self.Image.get_rect(center=(self.ABSOLUTE_X + 27, self.ABSOLUTE_Y +27 ))
        self.Collider.inflate_ip(10, 10)
+    HAS_MOVED = False
        
 
 
@@ -116,6 +118,110 @@ def setup_king(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
     king.ABSOLUTE_X = ABSOLUTE_X
     king.ABSOLUTE_Y = ABSOLUTE_Y
     return king
+
+
+def is_piece_on_tile(Tile: Tile):
+    if Tile.Piece != None:
+        return True
+    else:
+        return False
+    
+def piece_on_tile_team(Piece: Piece):
+    return Piece.Team
+
+
+def pawn_move(Piece:Piece, tiles):
+
+    c_tile = Piece.Tile
+    all_tiles = tiles
+    tiles_to_move = []
+    if Piece.Team == "White":
+        if Piece.HAS_MOVED == True:
+                above_tile = Tile.get_above_tile(c_tile, all_tiles)
+                if not is_piece_on_tile(above_tile):
+                    tiles_to_move.append(above_tile)
+
+
+
+        else:
+                above_tile = Tile.get_above_tile(c_tile, all_tiles)
+                if not is_piece_on_tile(above_tile):
+                    tiles_to_move.append(above_tile)
+                first_move_tile = Tile.get_above_tile(above_tile, all_tiles)
+                if not is_piece_on_tile(first_move_tile):
+                    tiles_to_move.append(first_move_tile)
+                Piece.HAS_MOVED = True
+
+    else:
+        if Piece.HAS_MOVED == True:
+                below_tile = Tile.get_below_tile(c_tile, all_tiles)
+                if not is_piece_on_tile(below_tile):
+                    tiles_to_move.append(below_tile)
+
+        else:
+                below_tile = Tile.get_below_tile(c_tile, all_tiles)
+                if not is_piece_on_tile(below_tile):
+                    tiles_to_move.append(below_tile)
+                first_move_tile = Tile.get_below_tile(below_tile, all_tiles)
+                if not is_piece_on_tile(first_move_tile):
+                    tiles_to_move.append(first_move_tile)
+                Piece.HAS_MOVED = True
+    
+    return tiles_to_move
+
+
+
+
+
+
+
+def get_piece_available_tiles(Piece: Piece, tiles):
+    #
+    
+    available_tiles = []
+
+
+    match(Piece.Name):
+        
+        #U slucaju da je figura pijun
+        case "Pawn": 
+           pawn_move()
+    
+ 
+
+
+
+
+        case _:
+            print("Cannot move")
+          
+    return available_tiles
+
+
+   
+     
+
+   
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
