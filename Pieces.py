@@ -224,125 +224,82 @@ def pawn_move(Piece:Piece, tiles):
 def rook_move(Piece:Piece, tiles):
 
     c_tile = Piece.Tile
+    current_tile = c_tile
     all_tiles = tiles
     tiles_to_move = []
 
-
-    leftTile = Tile.get_left_tile(c_tile,all_tiles)
-    if leftTile is not None:
-        if is_piece_on_tile(leftTile):
-            if piece_on_tile(leftTile, all_tiles).Team == "Black":
-                 tiles_to_move.append(leftTile)
-        else: 
-            tiles_to_move.append(leftTile)
-
-       
-    rightTile = Tile.get_right_tile(c_tile,all_tiles)
-    if rightTile is not None:
-        if is_piece_on_tile(rightTile):
-            if piece_on_tile(rightTile, all_tiles).Team == "Black":
-                 tiles_to_move.append(rightTile)
-        else: 
-            tiles_to_move.append(rightTile)
-
-
-    upTile = Tile.get_above_tile(c_tile,all_tiles)
-    if upTile is not None:
-        if is_piece_on_tile(upTile):
-            if piece_on_tile(upTile, all_tiles).Team == "Black":
-                 tiles_to_move.append(upTile)
-        else: 
-            tiles_to_move.append(upTile)
-
-    downTile = Tile.get_below_tile(c_tile,all_tiles)
-    if downTile is not None:
-        if is_piece_on_tile(downTile):
-            if piece_on_tile(downTile, all_tiles).Team == "Black":
-                 tiles_to_move.append(downTile)
-        else: 
-            tiles_to_move.append(downTile)
-
-
-    if Piece.Team == "White":
-
-       for i in range(8):
-         
-         if  Tile.get_left_tile(leftTile,all_tiles) is not None:
-          leftTile = Tile.get_left_tile(leftTile,all_tiles)
-         if is_piece_on_tile(leftTile) :
-            if piece_on_tile(leftTile,tiles).Team == "Black":
-                tiles_to_move.append(leftTile)
-                print("FAFAF")
-                break
-         elif leftTile is not None:
-             tiles_to_move.append(leftTile)
-
-       for i in range(8):
-         if Tile.get_right_tile(rightTile, all_tiles) is not None:
-          rightTile= Tile.get_right_tile(rightTile, all_tiles)
-         if is_piece_on_tile(rightTile) :
-            if piece_on_tile(rightTile,tiles).Team == "Black":
-                tiles_to_move.append(rightTile)
-                break
-         elif rightTile is not None:
-             tiles_to_move.append(rightTile)
-
-       for i in range(8):
-         if Tile.get_above_tile(upTile, all_tiles) is not None:
-          upTile= Tile.get_above_tile(upTile, all_tiles)
-          if upTile.Piece.Team == "Black":
-              print("asdas")
-         if is_piece_on_tile(upTile) :
-            if piece_on_tile(upTile,tiles).Team == "Black":
-                tiles_to_move.append(upTile)
-                break
-         elif upTile is not None:
-             tiles_to_move.append(upTile)
-
-       for i in range(8):
-         if Tile.get_below_tile(downTile, all_tiles) is not None:
-          downTile= Tile.get_below_tile(downTile, all_tiles)
-         if is_piece_on_tile(downTile) :
-            if piece_on_tile(downTile,tiles).Team == "Black":
-                tiles_to_move.append(downTile)
-                break
-         elif downTile is not None:
-             tiles_to_move.append(downTile)
-
-
-
-
-       
-    
-                
-                
-
-    else:
-        if Piece.HAS_MOVED == True:
-                below_tile = Tile.get_below_tile(c_tile, all_tiles)
-                below_left_tile = Tile.get_left_down_diagonal(c_tile, all_tiles)
-                below_right_tile = Tile.get_right_down_diagonal(c_tile, all_tiles)
-
-                if is_piece_on_tile(below_left_tile) and piece_on_tile(below_left_tile,tiles).Team == "White":
-                    tiles_to_move.append(below_left_tile)
-                   
-
-                if is_piece_on_tile(below_right_tile) and piece_on_tile(below_right_tile,tiles).Team == "White":
-                    tiles_to_move.append(below_right_tile)
-                   
-
-                if not is_piece_on_tile(below_tile):
-                    tiles_to_move.append(below_tile)
-
+    for i in range(8):
+        if Tile.get_left_tile(current_tile, all_tiles) is None:
+            break
+        left_tile= Tile.get_left_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(left_tile):
+            tiles_to_move.append(left_tile)
+            current_tile = left_tile
         else:
-                below_tile = Tile.get_below_tile(c_tile, all_tiles)
-                if not is_piece_on_tile(below_tile):
-                    tiles_to_move.append(below_tile)
-                first_move_tile = Tile.get_below_tile(below_tile, all_tiles)
-                if not is_piece_on_tile(first_move_tile):
-                    tiles_to_move.append(first_move_tile)
+           peace_tile= piece_on_tile(left_tile,all_tiles)
+           if peace_tile.Team == "Black":
+             tiles_to_move.append(left_tile)
+             break
+           else:
+               break
+
+    current_tile = c_tile          
+
+    for i in range(8):
+        if Tile.get_above_tile(current_tile,all_tiles) is None:
+            break
+        up_tile= Tile.get_above_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(up_tile):
+            tiles_to_move.append(up_tile)
+            current_tile = up_tile
+        else:
+           peace_tile= piece_on_tile(up_tile,all_tiles)
+           if peace_tile.Team == "Black":
+             tiles_to_move.append(up_tile)
+             break
+           else:
+               break    
+
+    current_tile = c_tile    
+
+    for i in range(8):
+        if Tile.get_below_tile(current_tile,all_tiles) is None:
+            break
+        below_tile= Tile.get_below_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(below_tile):
+            tiles_to_move.append(below_tile)
+            current_tile = below_tile
+        else:
+           peace_tile= piece_on_tile(below_tile,all_tiles)
+           if peace_tile.Team == "Black":
+             tiles_to_move.append(below_tile)
+             break
+           else:
+               break    
                
+    current_tile = c_tile  
     
+    for i in range(8):
+        if Tile.get_right_tile(current_tile,all_tiles) is None:
+            break
+        right_tile= Tile.get_right_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(right_tile):
+            tiles_to_move.append(right_tile)
+            current_tile = right_tile
+        else:
+           peace_tile= piece_on_tile(right_tile,all_tiles)
+           if peace_tile.Team == "Black":
+             tiles_to_move.append(right_tile)
+             break
+           else:
+               break    
+               
+
+
+
+
+
+
     return tiles_to_move
 
 
