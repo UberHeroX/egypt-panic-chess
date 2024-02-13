@@ -44,22 +44,22 @@ def get_right_tile(Tile: Tile, tiles):
 def get_right_up_diagonal(Tile: Tile, tiles):
     current_tile = Tile
     for i, tile in enumerate(tiles):
-        if current_tile.Row == tile.Row -1 and current_tile.Column +1 == tile.Column:
+        if current_tile.Row == tile.Row + 1 and current_tile.Column +1 == tile.Column:
             return tile 
         
 def get_left_up_diagonal(Tile: Tile, tiles):
     current_tile = Tile
     for i, tile in enumerate(tiles):
-        if current_tile.Row == tile.Row -1 and current_tile.Column -1 == tile.Column:
+        if current_tile.Row == tile.Row +1 and current_tile.Column -1 == tile.Column:
             return tile 
         
 def get_right_down_diagonal(Tile: Tile, tiles):
     current_tile = Tile
     for i, tile in enumerate(tiles):
-        if current_tile.Row == tile.Row +1 and current_tile.Column +1 == tile.Column:
+        if current_tile.Row == tile.Row -1 and current_tile.Column +1 == tile.Column:
             return tile 
         
-def get_left_up_diagonal(Tile: Tile, tiles):
+def get_left_down_diagonal(Tile: Tile, tiles):
     current_tile = Tile
     for i, tile in enumerate(tiles):
         if current_tile.Row == tile.Row -1 and current_tile.Column -1 == tile.Column:

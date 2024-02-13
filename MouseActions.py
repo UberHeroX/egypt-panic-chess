@@ -36,11 +36,14 @@ def snap_to_target(piece, range):
                piece.ABSOLUTE_X = tile.ABSOLUTE_X + piece.OFFSET_X
                piece.ABSOLUTE_Y = tile.ABSOLUTE_Y + piece.OFFSET_Y
                piece.HAS_MOVED = True
+               update_piece_position(piece,tile)
                return True
            
     return False          
     
+def update_piece_position(piece, tile):
+    piece.Tile.Piece = None
+    piece.Tile = tile
+    tile.Piece = piece
 
-                 
-   
-
+     
