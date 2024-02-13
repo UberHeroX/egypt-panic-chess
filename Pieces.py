@@ -14,6 +14,8 @@ class Piece:
        self.Collider = self.Image.get_rect(center=(self.ABSOLUTE_X + 27, self.ABSOLUTE_Y +27 ))
        self.Collider.inflate_ip(10, 10)
     HAS_MOVED = False
+    OFFSET_X= None
+    OFFSET_Y = None
        
 
 
@@ -46,6 +48,9 @@ def setup_pawn(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
     pawn.Tile = Tile
     pawn.ABSOLUTE_X = ABSOLUTE_X
     pawn.ABSOLUTE_Y = ABSOLUTE_Y
+    pawn.OFFSET_X = 15
+    pawn.OFFSET_Y = 5
+
     return pawn
 
 def setup_rook(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
@@ -154,7 +159,7 @@ def pawn_move(Piece:Piece, tiles):
                 first_move_tile = Tile.get_above_tile(above_tile, all_tiles)
                 if not is_piece_on_tile(first_move_tile):
                     tiles_to_move.append(first_move_tile)
-                Piece.HAS_MOVED = True
+                
 
     else:
         if Piece.HAS_MOVED == True:
@@ -169,7 +174,7 @@ def pawn_move(Piece:Piece, tiles):
                 first_move_tile = Tile.get_below_tile(below_tile, all_tiles)
                 if not is_piece_on_tile(first_move_tile):
                     tiles_to_move.append(first_move_tile)
-                Piece.HAS_MOVED = True
+               
     
     return tiles_to_move
 

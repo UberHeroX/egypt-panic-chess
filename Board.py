@@ -8,6 +8,8 @@ GRAY = (200, 200 ,200)
 
 tile_green = pygame.image.load("./files/tiles/tile_green.png")
 tile_beige = pygame.image.load("./files/tiles/tile_beige.png")
+Highlight = pygame.image.load("./files/tiles/tile_highlight.png")
+
 
 tile_size = 64
 grid_size = (8,8)
@@ -43,6 +45,7 @@ def create_board():
             BoardTile.Column = col
             BoardTile.ABSOLUTE_X = x
             BoardTile.ABSOLUTE_Y = y
+            BoardTile.create_collider()
             
             if row == grid_size[1]-1 and col%2==0:
               text = letterings[col]

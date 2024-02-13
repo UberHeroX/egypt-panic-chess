@@ -4,6 +4,7 @@ import Pieces
 import pygame
 import GameState
 import Board
+import MouseActions
 import sys
 
 
@@ -11,11 +12,13 @@ import sys
 active = True
 Board.create_board()
 Board.setup_board()
-active_piece= None
-Highlight = pygame.image.load("./files/tiles/tile_highlight.png")
-# Glavni main loop, ovde se desavaju provere svakog frejma
+
+global active_piece 
+active_piece =None
 offset_x = 17
 offset_y = 25
+
+# Glavni main loop, ovde se desavaju provere svakog frejma
 while active:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -23,24 +26,23 @@ while active:
 
 
         elif event.type == pygame.MOUSEBUTTONDOWN :
+           active_piece = MouseActions.OnPieceClicked(Pieces, event.pos,Board,Buttons,) 
+           if active_piece is not None:
+            active_piece_start_loc = [active_piece.ABSOLUTE_X,active_piece.ABSOLUTE_Y]
              
-             for i, piece in enumerate(Pieces.pieces_to_render):
-                 
-                 if piece.Collider.collidepoint(event.pos):
-                    active_piece = piece 
-                    piece.IS_MOVED = True
-                    mouse_x, mouse_y = event.pos
-                    available_tiles = Pieces.get_piece_available_tiles(active_piece, Board.tiles)
-                    
-                    for tiles in available_tiles:
-                        for tile in tiles:
-                            tile.CachedImage = tile.Image
-                            tile.Image= Highlight
-                 Buttons.check_click(event.pos)
-
+             
 
         elif event.type == pygame.MOUSEBUTTONUP and active_piece is not None:
+            hasSnapped = MouseActions.snap_to_target(active_piece,50)
+            if not hasSnapped:
+               active_piece.ABSOLUTE_X = (active_piece_start_loc[0])
+               active_piece.ABSOLUTE_Y = (active_piece_start_loc[1])
+               active_piece.Collider.x = (active_piece_start_loc[0])
+               active_piece.Collider.y = (active_piece_start_loc[1])
+
             active_piece.IS_MOVED = False
+            active_piece = None
+            MouseActions.available_tiles_glob.clear()
             for tile in Board.tiles:
                 if tile.CachedImage is not None:
                     tile.Image = tile.CachedImage
