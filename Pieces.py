@@ -121,9 +121,10 @@ def setup_king(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
 
 
 def is_piece_on_tile(Tile: Tile):
-    if Tile.Piece != None:
+    if Tile is not None:
+      if Tile.Piece != None:
         return True
-    else:
+      else:
         return False
     
 def piece_on_tile_team(Piece: Piece):
@@ -138,12 +139,15 @@ def pawn_move(Piece:Piece, tiles):
     if Piece.Team == "White":
         if Piece.HAS_MOVED == True:
                 above_tile = Tile.get_above_tile(c_tile, all_tiles)
+                print("F")
                 if not is_piece_on_tile(above_tile):
+                    print(above_tile)
                     tiles_to_move.append(above_tile)
 
 
 
         else:
+                
                 above_tile = Tile.get_above_tile(c_tile, all_tiles)
                 if not is_piece_on_tile(above_tile):
                     tiles_to_move.append(above_tile)
@@ -185,7 +189,7 @@ def get_piece_available_tiles(Piece: Piece, tiles):
         
         #U slucaju da je figura pijun
         case "Pawn": 
-           pawn_move()
+           available_tiles.append(pawn_move(Piece, tiles))
     
  
 

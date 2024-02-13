@@ -2,7 +2,7 @@ import Window
 import Buttons
 import Pieces
 import pygame
-import MouseCommands
+import GameState
 import Board
 import sys
 
@@ -12,6 +12,7 @@ active = True
 Board.create_board()
 Board.setup_board()
 active_piece= None
+Highlight = pygame.image.load("./files/tiles/tile_highlight.png")
 # Glavni main loop, ovde se desavaju provere svakog frejma
 offset_x = 17
 offset_y = 25
@@ -21,20 +22,30 @@ while active:
             active = False
 
 
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONDOWN :
+             
              for i, piece in enumerate(Pieces.pieces_to_render):
                  
                  if piece.Collider.collidepoint(event.pos):
-                    print("done")
                     active_piece = piece 
                     piece.IS_MOVED = True
                     mouse_x, mouse_y = event.pos
-
+                    available_tiles = Pieces.get_piece_available_tiles(active_piece, Board.tiles)
+                    
+                    for tiles in available_tiles:
+                        for tile in tiles:
+                            tile.CachedImage = tile.Image
+                            tile.Image= Highlight
                  Buttons.check_click(event.pos)
 
 
         elif event.type == pygame.MOUSEBUTTONUP and active_piece is not None:
             active_piece.IS_MOVED = False
+            for tile in Board.tiles:
+                if tile.CachedImage is not None:
+                    tile.Image = tile.CachedImage
+
+                
             
         elif active_piece is not None:
          if event.type == pygame.MOUSEMOTION and active_piece.IS_MOVED:
