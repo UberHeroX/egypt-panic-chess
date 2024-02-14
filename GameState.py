@@ -2,7 +2,15 @@
 
 
 
-players = ["White","Black"]
+players = []
 
+global current_turn
+current_turn = "White"
 
-current_turn = players[0]
+def next_turn():
+    global current_turn
+    if current_turn == "White":
+        current_turn = "Black"
+    else:
+        current_turn = "White"
+        

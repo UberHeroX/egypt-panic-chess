@@ -3,6 +3,7 @@ import Buttons
 import Pieces
 import pygame
 import GameState
+import Player
 import Board
 import MouseActions
 import sys
@@ -17,6 +18,10 @@ global active_piece
 active_piece =None
 offset_x = 17
 offset_y = 25
+playerWhite = Player.Player()
+playerWhite.Team = "White"
+playerBlack = Player.Player()
+playerBlack= "Black"
 
 # Glavni main loop, ovde se desavaju provere svakog frejma
 while active:
@@ -25,8 +30,8 @@ while active:
             active = False
 
 
-        elif event.type == pygame.MOUSEBUTTONDOWN :
-           active_piece = MouseActions.OnPieceClicked(Pieces, event.pos,Board,Buttons,) 
+        elif event.type == pygame.MOUSEBUTTONDOWN  :
+           active_piece = MouseActions.OnPieceClicked(Pieces, event.pos,Board,Buttons,GameState.current_turn) 
            if active_piece is not None:
             active_piece_start_loc = [active_piece.ABSOLUTE_X,active_piece.ABSOLUTE_Y]
              
@@ -42,6 +47,7 @@ while active:
 
             active_piece.IS_MOVED = False
             active_piece = None
+            GameState.next_turn()
             MouseActions.available_tiles_glob.clear()
             for tile in Board.tiles:
                 if tile.CachedImage is not None:

@@ -2,10 +2,10 @@ import pygame
 
 global available_tiles_glob 
 available_tiles_glob = None
-def OnPieceClicked(Pieces, event, Board, Buttons):
+def OnPieceClicked(Pieces, event, Board, Buttons,Player):
     for i, piece in enumerate(Pieces.pieces_to_render):
                  
-                 if piece.Collider.collidepoint(event):
+                 if piece.Collider.collidepoint(event) and piece.Team == Player:
                     active_piece = piece 
                     piece.IS_MOVED = True
                     mouse_x, mouse_y = event
