@@ -65,7 +65,7 @@ def setup_rook(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
     rook.Tile = Tile
     rook.ABSOLUTE_X = ABSOLUTE_X
     rook.ABSOLUTE_Y = ABSOLUTE_Y
-    rook.OFFSET_X = 15
+    rook.OFFSET_X = 13
     rook.OFFSET_Y = 5
     Tile.Piece = rook
     return rook
@@ -82,7 +82,7 @@ def setup_knight(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
     knight.Tile = Tile
     knight.ABSOLUTE_X = ABSOLUTE_X
     knight.ABSOLUTE_Y = ABSOLUTE_Y
-    knight.OFFSET_X = 15
+    knight.OFFSET_X = 8
     knight.OFFSET_Y = 5
     Tile.Piece = knight
     return knight
@@ -99,7 +99,7 @@ def setup_bishop(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
     bishop.Tile = Tile
     bishop.ABSOLUTE_X = ABSOLUTE_X
     bishop.ABSOLUTE_Y = ABSOLUTE_Y
-    bishop.OFFSET_X = 15
+    bishop.OFFSET_X = 11
     bishop.OFFSET_Y = 5
     Tile.Piece = bishop
     return bishop
@@ -116,6 +116,8 @@ def setup_queen(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
     queen.Tile = Tile
     queen.ABSOLUTE_X = ABSOLUTE_X
     queen.ABSOLUTE_Y = ABSOLUTE_Y
+    queen.OFFSET_X = 8
+    queen.OFFSET_Y = 5
     Tile.Piece = queen
     return queen
 
@@ -131,6 +133,8 @@ def setup_king(team, ABSOLUTE_X, ABSOLUTE_Y, Tile):
     king.Tile = Tile
     king.ABSOLUTE_X = ABSOLUTE_X
     king.ABSOLUTE_Y = ABSOLUTE_Y
+    king.OFFSET_X = 10
+    king.OFFSET_Y = 5
     Tile.Piece = king
     return king
 
@@ -472,6 +476,249 @@ def knight_move(Piece:Piece, tiles):
      
      return tiles_to_move
     
+def queen_move(Piece:Piece, tiles):
+     c_tile = Piece.Tile
+     current_tile = c_tile
+     all_tiles = tiles
+     tiles_to_move = []
+
+     if Piece.Team == "Black":
+        team = "White"
+     else:
+        team = "Black"
+
+     for i in range(8):
+        if Tile.get_left_tile(current_tile, all_tiles) is None:
+            break
+        left_tile= Tile.get_left_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(left_tile):
+            tiles_to_move.append(left_tile)
+            current_tile = left_tile
+        else:
+           piece_tile= piece_on_tile(left_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(left_tile)
+             break
+           else:
+               break
+
+     current_tile = c_tile          
+
+     for i in range(8):
+        if Tile.get_above_tile(current_tile,all_tiles) is None:
+            break
+        up_tile= Tile.get_above_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(up_tile):
+            tiles_to_move.append(up_tile)
+            current_tile = up_tile
+        else:
+           piece_tile= piece_on_tile(up_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(up_tile)
+             break
+           else:
+               break    
+
+     current_tile = c_tile    
+
+     for i in range(8):
+        if Tile.get_below_tile(current_tile,all_tiles) is None:
+            break
+        below_tile= Tile.get_below_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(below_tile):
+            tiles_to_move.append(below_tile)
+            current_tile = below_tile
+        else:
+           piece_tile= piece_on_tile(below_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(below_tile)
+             break
+           else:
+               break    
+               
+     current_tile = c_tile  
+    
+     for i in range(8):
+        if Tile.get_right_tile(current_tile,all_tiles) is None:
+            break
+        right_tile= Tile.get_right_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(right_tile):
+            tiles_to_move.append(right_tile)
+            current_tile = right_tile
+        else:
+           piece_tile= piece_on_tile(right_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(right_tile)
+             break
+           else:
+               break   
+            
+     current_tile = c_tile     
+     for i in range(8):
+        if Tile.get_left_up_diagonal(current_tile, all_tiles) is None:
+            break
+        left_up_tile= Tile.get_left_up_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(left_up_tile):
+            tiles_to_move.append(left_up_tile)
+            current_tile = left_up_tile
+        else:
+           piece_tile= piece_on_tile(left_up_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(left_up_tile)
+             break
+           else:
+               break
+
+     current_tile = c_tile     
+
+     for i in range(8):
+        if Tile.get_right_up_diagonal(current_tile, all_tiles) is None:
+            break
+        right_up_tile= Tile.get_right_up_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(right_up_tile):
+            tiles_to_move.append(right_up_tile)
+            current_tile = right_up_tile
+        else:
+           piece_tile= piece_on_tile(right_up_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(right_up_tile)
+             break
+           else:
+               break
+           
+           
+     current_tile = c_tile     
+
+     for i in range(8):
+        if Tile.get_right_down_diagonal(current_tile, all_tiles) is None:
+            break
+        right_down_tile= Tile.get_right_down_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(right_down_tile):
+            tiles_to_move.append(right_down_tile)
+            current_tile = right_down_tile
+        else:
+           piece_tile= piece_on_tile(right_down_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(right_down_tile)
+             break
+           else:
+               break
+           
+     current_tile = c_tile     
+
+     for i in range(8):
+        if Tile.get_left_down_diagonal(current_tile, all_tiles) is None:
+            break
+        left_down_tile= Tile.get_left_down_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(left_down_tile):
+            tiles_to_move.append(left_down_tile)
+            current_tile = left_down_tile
+        else:
+           piece_tile= piece_on_tile(left_down_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(left_down_tile)
+             break
+           else:
+               break
+ 
+     return tiles_to_move
+
+def king_move(Piece:Piece, tiles):
+     c_tile = Piece.Tile
+     current_tile = c_tile
+     all_tiles = tiles
+     tiles_to_move = []
+
+     if Piece.Team == "Black":
+        team = "White"
+     else:
+        team = "Black"
+
+
+     if Tile.get_left_tile(current_tile, all_tiles) is not None:
+        left_tile= Tile.get_left_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(left_tile):
+            tiles_to_move.append(left_tile)
+        else:
+           piece_tile= piece_on_tile(left_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(left_tile)
+
+
+     if Tile.get_right_tile(current_tile, all_tiles) is not None:    
+        right_tile= Tile.get_right_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(right_tile):
+            tiles_to_move.append(right_tile)
+            
+        else:
+           piece_tile= piece_on_tile(right_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(right_tile)
+        
+
+     if Tile.get_above_tile(current_tile, all_tiles) is not None:    
+        above_tile= Tile.get_above_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(above_tile):
+            tiles_to_move.append(above_tile)
+            
+        else:
+           piece_tile= piece_on_tile(above_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(above_tile)
+
+     if Tile.get_below_tile(current_tile, all_tiles) is not None:    
+        below_tile= Tile.get_below_tile(current_tile, all_tiles)
+        if not is_piece_on_tile(below_tile):
+            tiles_to_move.append(below_tile)
+            
+        else:
+           piece_tile= piece_on_tile(below_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(below_tile)
+
+
+     if Tile.get_left_up_diagonal(current_tile, all_tiles) is not None:    
+        left_up_tile= Tile.get_left_up_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(left_up_tile):
+            tiles_to_move.append(left_up_tile)
+            
+        else:
+           piece_tile= piece_on_tile(left_up_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(left_up_tile)
+
+     if Tile.get_left_down_diagonal(current_tile, all_tiles) is not None:    
+        left_down_tile= Tile.get_left_down_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(left_down_tile):
+            tiles_to_move.append(left_down_tile)
+            
+        else:
+           piece_tile= piece_on_tile(left_down_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(left_down_tile)
+
+     if Tile.get_right_down_diagonal(current_tile, all_tiles) is not None:    
+        right_down_tile= Tile.get_right_down_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(right_down_tile):
+            tiles_to_move.append(right_down_tile)
+            
+        else:
+           piece_tile= piece_on_tile(right_down_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(right_down_tile)
+
+     if Tile.get_right_up_diagonal(current_tile, all_tiles) is not None:    
+        right_up_tile= Tile.get_right_up_diagonal(current_tile, all_tiles)
+        if not is_piece_on_tile(right_up_tile):
+            tiles_to_move.append(right_up_tile)
+            
+        else:
+           piece_tile= piece_on_tile(right_up_tile,all_tiles)
+           if piece_tile.Team == team:
+             tiles_to_move.append(right_up_tile)
+
+     return tiles_to_move
+    
 def get_piece_available_tiles(Piece: Piece, tiles):
     #
     
@@ -495,6 +742,16 @@ def get_piece_available_tiles(Piece: Piece, tiles):
         case "Knight":
 
             available_tiles.append(knight_move(Piece, tiles))
+
+        case "Queen":
+
+            available_tiles.append(queen_move(Piece,tiles))
+        
+        case "King":
+
+            available_tiles.append(king_move(Piece,tiles))
+
+
 
         case _:
             print("Cannot move")
