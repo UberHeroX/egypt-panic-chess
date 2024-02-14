@@ -68,5 +68,9 @@ def get_left_down_diagonal(Tile: Tile, tiles):
     for i, tile in enumerate(tiles):
         if current_tile.Row == tile.Row -1 and current_tile.Column -1 == tile.Column:
             return tile 
-        
+
+def get_tile_by_row_and_col(row, col, tiles):
+    for tile in tiles:
+       if tile.Row == row and tile.Column == col:
+           return tile
 
