@@ -18,10 +18,7 @@ global active_piece
 active_piece =None
 offset_x = 17
 offset_y = 25
-playerWhite = Player.Player()
-playerWhite.Team = "White"
-playerBlack = Player.Player()
-playerBlack= "Black"
+
 
 # Glavni main loop, ovde se desavaju provere svakog frejma
 while active:
@@ -47,7 +44,7 @@ while active:
 
             active_piece.IS_MOVED = False
             active_piece = None
-            GameState.next_turn()
+            
             MouseActions.available_tiles_glob.clear()
             for tile in Board.tiles:
                 if tile.CachedImage is not None:

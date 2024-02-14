@@ -16,6 +16,9 @@ class Piece:
     HAS_MOVED = False
     OFFSET_X= None
     OFFSET_Y = None
+    
+        
+    
        
 
 

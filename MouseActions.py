@@ -1,5 +1,6 @@
 import pygame
-
+import GameFunctions
+import GameState
 global available_tiles_glob 
 available_tiles_glob = None
 def OnPieceClicked(Pieces, event, Board, Buttons,Player):
@@ -29,21 +30,28 @@ def snap_to_target(piece, range):
         for tile in tiles:
           if piece.Collider.colliderect(tile.Collider):
         
-           print(tile.Row)
+           
            if abs(piece.Collider.x - tile.Collider.x) <= range and \
               abs(piece.Collider.y - tile.Collider.y) <= range:
                piece.Collider.center = tile.Collider.center
                piece.ABSOLUTE_X = tile.ABSOLUTE_X + piece.OFFSET_X
                piece.ABSOLUTE_Y = tile.ABSOLUTE_Y + piece.OFFSET_Y
                piece.HAS_MOVED = True
+               GameFunctions.can_eat_figure(piece, tile, tiles)
                update_piece_position(piece,tile)
+               
                return True
+        
            
     return False          
     
+
+
+
 def update_piece_position(piece, tile):
     piece.Tile.Piece = None
     piece.Tile = tile
     tile.Piece = piece
+    GameState.next_turn()
 
-     
+
