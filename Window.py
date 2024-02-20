@@ -9,7 +9,7 @@ pygame_instance = pygame.init()
 
 #Dimenzije prozora
 
-WIDTH = 1280
+WIDTH = 1080
 HEIGHT = 720
 screen_size= (WIDTH, HEIGHT)
 

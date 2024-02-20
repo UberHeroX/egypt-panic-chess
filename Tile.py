@@ -12,6 +12,7 @@ class Tile:
     TEXT_COL = None
     CachedImage = None
     Collider = None
+    TileRegistry = None
     def create_collider(self):
         self.Collider = self.Image.get_rect(center=(self.ABSOLUTE_X + 32, self.ABSOLUTE_Y +32 ))
       

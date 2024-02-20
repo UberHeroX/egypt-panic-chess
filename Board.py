@@ -22,6 +22,8 @@ letterings = ["a","b","c","d","e","f","g","h"]
 def create_board():
  for row in range(grid_size[0]):
         
+            
+
         for col in range(grid_size[1]):
             # Calculate the position for each tile
             x = start_x + col * 64
@@ -66,8 +68,8 @@ def create_board():
               BoardTile.TEXT_COLOR =  (236,236,213)
               BoardTile.TEXT_ROW = font.render(str(text), True, (236,236,213))
              
-              
-              
+            rowRegistry = letterings[col] 
+            BoardTile.TileRegistry = "".join((str(rowRegistry),str(8-row))) 
 
             
             tiles.append(BoardTile)

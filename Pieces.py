@@ -218,9 +218,19 @@ def pawn_move(Piece:Piece, tiles):
                     tiles_to_move.append(below_tile)
 
         else:
+                below_left_tile = Tile.get_left_down_diagonal(c_tile, all_tiles)
+                below_right_tile = Tile.get_right_down_diagonal(c_tile, all_tiles)
                 below_tile = Tile.get_below_tile(c_tile, all_tiles)
                 if not is_piece_on_tile(below_tile):
                     tiles_to_move.append(below_tile)
+
+                if is_piece_on_tile(below_left_tile) and piece_on_tile(below_left_tile,tiles).Team == "White":
+                    tiles_to_move.append(below_left_tile)
+                   
+
+                if is_piece_on_tile(below_right_tile) and piece_on_tile(below_right_tile,tiles).Team == "White":
+                    tiles_to_move.append(below_right_tile)
+                    
                 first_move_tile = Tile.get_below_tile(below_tile, all_tiles)
                 if not is_piece_on_tile(first_move_tile):
                     tiles_to_move.append(first_move_tile)

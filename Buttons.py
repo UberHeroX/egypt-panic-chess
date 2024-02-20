@@ -5,6 +5,8 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 GRAY = (200, 200 ,200)
 
+
+
 render_list = []
 
 class Button:
@@ -23,11 +25,14 @@ class Button:
      SIZE_Y = None
      TEXT = None
      PARENT_WINDOW  = None
+     PARENT = None
      IS_VISIBILE = True
      FONT = None
      FONT_SIZE = 30
      BOUND_FUNCT = None
      TEXT_COLOR = BLACK
+     OFFSET_X = None
+     OFFSET_Y = None
 
      def render(self):
          render_list.append(self)
@@ -41,6 +46,10 @@ class Button:
              self.BOUND_FUNCT(self)
          else: 
              print("No function has been bound")
+     def make_child(self,  parent):
+         self.ABSOLUTE_X= parent.ABSOLUTE_X
+         self.ABSOLUTE_Y = parent.ABSOLUTE_Y
+         self.PARENT= parent 
          
 
 
@@ -58,6 +67,11 @@ Button1.TEXT_COLOR= WHITE
 Button1.COLOR = BLACK
 Button1.bind(Button.remove)
 Button1.render()
+
+
+Button2 = Button(700,100, 300,500)
+Button2.COLOR = (255, 250, 240)
+Button2.render()
 
 
 font = pygame.font.Font(None, 30)
