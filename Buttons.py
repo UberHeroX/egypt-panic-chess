@@ -61,19 +61,6 @@ option_height = 30
 
 # font
 
-Button1= Button(700,25,100,30)
-Button1.TEXT = "Sranje"
-Button1.TEXT_COLOR= WHITE
-Button1.COLOR = BLACK
-Button1.bind(Button.remove)
-Button1.render()
-
-
-Button2 = Button(700,100, 300,500)
-Button2.COLOR = (255, 250, 240)
-Button2.render()
-
-
 font = pygame.font.Font(None, 30)
 
 def draw_button(Button: Button):

@@ -1,7 +1,7 @@
 import pygame 
 import sys
 import os
-
+import UI
 
 # Inicijalizacija PyGame modula
 
@@ -69,3 +69,7 @@ def check_click(position):
         option_index = x // option_width
         if option_index < len(menu_options):
             print(f"{menu_options[option_index]} was clicked")
+
+
+
+

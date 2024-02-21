@@ -11,7 +11,7 @@ import GameFunctions
 import threading
 import sys
 import json
-
+import UI
 
 active = True
 Board.create_board()
@@ -25,7 +25,13 @@ s = None
 has_connected = False
 host = 'localhost'
 port = 6000
+font_path = "./files/fonts/Savigny.ttf"
+font= pygame.font.Font(font_path,24)
 
+
+ScrollBox = UI.UIScrollBox((700, 100),(300, 500),font,(0,0,0))
+Input = UI.UITextInput((700,600),(300,30),font,(0,0,0),None, ScrollBox)
+Logo = UI.UIImage("./files/images/logo.png",(275,10),(500,75))
 current_socket= None
 
 def connect_to_server():
@@ -103,28 +109,30 @@ while active:
             active_piece.Collider.x = mouse_x - offset_x
             active_piece.Collider.y = mouse_y - offset_y
 
-
+        Input.handle_event(event)
+       
+   
+    
     #Filuje pozadinu da bude bela
-    Window.window.fill((250, 235, 215))
+    Window.window.fill((41, 68, 81))
 
     #Crta sve dugmice, u slucaju da postoje 
     Buttons.draw_render_list(Window.window)
 
     #Crta polja
     Board.render_tiles(Window.window)
-    
+
+    Input.draw(Window.window)
+    ScrollBox.draw(Window.window)
+    Logo.draw(Window.window)
+
     #Renderuje figure
     Pieces.render_pieces(Window.window)
 
     #Apdejtuje ceo displej
     pygame.display.flip()
 
-
-
-
-
-
-
+    
 
 
 # Izlazak iz igre

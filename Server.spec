@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['main.py'],
+    ['Server.py'],
     pathex=['C:\\Users\\Uros\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages'],
     binaries=[],
     datas=[],
@@ -21,18 +21,17 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='main',
+    name='Server',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['app.ico'],
 )
