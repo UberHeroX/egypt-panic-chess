@@ -39,6 +39,7 @@ def snap_to_target(piece, range, socket, Board):
                piece.ABSOLUTE_X = tile.ABSOLUTE_X + piece.OFFSET_X
                piece.ABSOLUTE_Y = tile.ABSOLUTE_Y + piece.OFFSET_Y
                piece.HAS_MOVED = True
+               
                GameFunctions.can_eat_figure(piece, tile, tiles)
                update_piece_position(piece,tile,socket)
                tile_to_change = GameFunctions.check_pawn(piece,Board.tiles)
@@ -46,7 +47,14 @@ def snap_to_target(piece, range, socket, Board):
                  tile_to_change.CachedImage = tile_to_change.Image
                  tile_to_change.Image = Board.check_highlight
                  tile_to_change.Reset_Image = False
-                 print(tile_to_change.Reset_Image)
+                 piece.Tile.CachedImage = piece.Tile.CachedImage
+                 piece.Tile.Image = Board.check_highlight
+                 piece.Tile.Reset_Image = False
+               else: 
+                 for tile_image in Board.tiles:
+                  tile_image.Reset_Image = True
+                  if tile_image.CachedImage is not None:
+                      tile_image.Image = tile_image.CachedImage
      
                return True
         
@@ -79,8 +87,10 @@ def update_piece_position_server(from_target, to_target, tiles):
     for tile in tiles:
         if tile.TileRegistry == to_target:
             end_tile=tile
-    for tile in tiles:
-        tile.Reset_Image = True
+    for tile_image in tiles:
+                  tile_image.Reset_Image = True
+                  if tile_image.CachedImage is not None:
+                      tile_image.Image = tile_image.CachedImage
     piece = start_tile.Piece
     piece.Collider.center = end_tile.Collider.center
     piece.ABSOLUTE_X = end_tile.ABSOLUTE_X + piece.OFFSET_X

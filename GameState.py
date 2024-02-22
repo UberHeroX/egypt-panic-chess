@@ -1,7 +1,7 @@
 
 
 
-
+is_in_check = False
 players = []
 
 global current_turn
