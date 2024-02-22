@@ -1,5 +1,7 @@
 import pygame
-
+import time
+import threading
+import json
 class UIElement:
     def __init__(self, parent=None):
         self.children = []
@@ -39,7 +41,7 @@ class UIText(UIElement):
         super().draw(surface)
     
 class UITextInput(UIElement):
-    def __init__(self, position, size, font, color=(255, 255, 255), parent=None, scrl_box=None):
+    def __init__(self, position, size, font, socket_in, color=(255, 255, 255), parent=None, scrl_box=None, ):
         super().__init__(parent)
         self.position = position
         self.size = size
@@ -49,6 +51,8 @@ class UITextInput(UIElement):
         self.background_color = 220, 220, 220
         self.active = False
         self.scrl_box = scrl_box
+        self.deleting = False
+        self.socket = socket_in
         # Define the input box rect here based on position and size
         self.input_box = pygame.Rect(position[0], position[1], size[0], size[1])
     
@@ -58,25 +62,39 @@ class UITextInput(UIElement):
         text_surface = self.font.render(self.text, True, self.color)
         surface.blit(text_surface, (self.position[0] + 5, self.position[1] + 2))
         super().draw(surface)
-    
+
     def handle_event(self, event):
+        
+       
         if event.type == pygame.MOUSEBUTTONDOWN:
             # Check if the user clicked on the self.input_box rect
             if self.input_box.collidepoint(event.pos):
                 # Toggle the active state
                 self.active = not self.active
+                self.text = "|"
             else:
                 self.active = False
         if event.type == pygame.KEYDOWN and self.active:
+            
             if event.key == pygame.K_BACKSPACE:
-                self.text = self.text[:-1]  # Remove the last character
+                
+                self.text = self.text[:-1]
             elif event.key != pygame.K_RETURN:
+                if len(self.text) == 1 and self.text == "|":
+                    self.text = self.text[1:]
+                    self.text += event.unicode
                 self.text += event.unicode  # Add the typed character
         if event.type == pygame.KEYDOWN and self.active:
            if event.key == pygame.K_RETURN:
                self.active = False
                self.scrl_box.add_line(self.text)
+               
+               message = {'command': 'chat', 'message': self.text}
+               self.socket.sendall(json.dumps(message).encode('utf-8'))
                self.text = ""
+        
+
+   
         
 
 
@@ -91,13 +109,22 @@ class UIScrollBox(UIElement):
         self.background_color = (253, 245, 230)
         self.offset = 0  # Used for scrolling
     
-    def add_line(self, text):
-        self.lines.append(text)
+    class line:
+        text = None
+        color = None
+
+    def add_line(self, text, color= (0,0,0)):
+        line = self.line()
+        line.text = text
+        line.color = color
+
+
+        self.lines.append(line)
     
     def draw(self, surface):
         box_rect = pygame.Rect(self.position, self.size)
         pygame.draw.rect(surface, self.background_color, box_rect)  # Draw the background
         for i, line in enumerate(self.lines[-10:]):  # Only draw the last 10 lines
-            text_surface = self.font.render(line, True, self.color)
+            text_surface = self.font.render(line.text, True, line.color)
             surface.blit(text_surface, (self.position[0] + 5, self.position[1] + 5 + i * 20))
         super().draw(surface)

@@ -2,7 +2,7 @@ import pygame
 import GameFunctions
 import GameState
 import json
-
+import time
 global available_tiles_glob 
 available_tiles_glob = None
 def OnPieceClicked(Pieces, event, Board, Buttons,Player,client_team):
@@ -25,7 +25,7 @@ def OnPieceClicked(Pieces, event, Board, Buttons,Player,client_team):
                  Buttons.check_click(event)
 
 
-def snap_to_target(piece, range, socket):
+def snap_to_target(piece, range, socket, Board):
 
     for tiles in available_tiles_glob:
         
@@ -41,7 +41,13 @@ def snap_to_target(piece, range, socket):
                piece.HAS_MOVED = True
                GameFunctions.can_eat_figure(piece, tile, tiles)
                update_piece_position(piece,tile,socket)
-               
+               tile_to_change = GameFunctions.check_pawn(piece,Board.tiles)
+               if tile_to_change is not None:
+                 tile_to_change.CachedImage = tile_to_change.Image
+                 tile_to_change.Image = Board.check_highlight
+                 tile_to_change.Reset_Image = False
+                 print(tile_to_change.Reset_Image)
+     
                return True
         
            
@@ -55,6 +61,7 @@ def send_server_move(socket,BeginTileRegistry,EndTileRegistry):
    socket.sendall(json.dumps(move).encode('utf-8'))
 
 def update_piece_position(piece, tile, socket):
+
     send_server_move(socket,piece.Tile.TileRegistry,tile.TileRegistry)
     piece.Tile.Piece = None
     piece.Tile = tile
@@ -72,6 +79,8 @@ def update_piece_position_server(from_target, to_target, tiles):
     for tile in tiles:
         if tile.TileRegistry == to_target:
             end_tile=tile
+    for tile in tiles:
+        tile.Reset_Image = True
     piece = start_tile.Piece
     piece.Collider.center = end_tile.Collider.center
     piece.ABSOLUTE_X = end_tile.ABSOLUTE_X + piece.OFFSET_X

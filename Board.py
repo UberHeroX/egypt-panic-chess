@@ -9,7 +9,7 @@ GRAY = (200, 200 ,200)
 tile_green = pygame.image.load("./files/tiles/tile_green.png")
 tile_beige = pygame.image.load("./files/tiles/tile_beige.png")
 Highlight = pygame.image.load("./files/tiles/tile_highlight.png")
-
+check_highlight = pygame.image.load("./files/tiles/check.png")
 
 tile_size = 64
 grid_size = (8,8)
@@ -115,12 +115,6 @@ def setup_board():
 
     for i, piece in enumerate(Pieces.pieces_to_render):
       piece.create_collider()
-
-
-
-
-
-
 
 def render_tiles(window):
   for i, tile in enumerate(tiles):

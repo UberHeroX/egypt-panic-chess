@@ -771,6 +771,10 @@ def get_piece_available_tiles(Piece: Piece, tiles):
           
     return available_tiles
 
+
+
+
+
 def render_pieces(window):
     for i, piece in enumerate(pieces_to_render):
         window.blit(piece.Image, (piece.ABSOLUTE_X, piece.ABSOLUTE_Y + 5 ))

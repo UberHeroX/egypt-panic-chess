@@ -25,20 +25,20 @@ s = None
 has_connected = False
 host = 'localhost'
 port = 6000
+current_socket= None
 font_path = "./files/fonts/Savigny.ttf"
 font= pygame.font.Font(font_path,24)
-
-
 ScrollBox = UI.UIScrollBox((700, 100),(300, 500),font,(0,0,0))
-Input = UI.UITextInput((700,600),(300,30),font,(0,0,0),None, ScrollBox)
+Input = UI.UITextInput((700,600),(300,30),font,current_socket,(0,0,0),None, ScrollBox)
 Logo = UI.UIImage("./files/images/logo.png",(275,10),(500,75))
-current_socket= None
+
 
 def connect_to_server():
         s= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((host, port))
         global current_socket
         current_socket = s
+        Input.socket = current_socket
         print("Connected to Chess Server.")
 
 def chess_client_receive():
@@ -56,6 +56,10 @@ def chess_client_receive():
                  MouseActions.update_piece_position_server(message.get('from'), message.get('to'),Board.tiles)
              elif command == 'team':
                 client_team = message.get('team')
+             elif command == 'chat':
+                print("asf")
+                ScrollBox.add_line(message.get('message'),(178, 68, 81))
+                
 
          except json.JSONDecodeError as e:
           print(f"Error decoding JSON: {e}")
@@ -71,10 +75,11 @@ while active:
      has_connected = True
 
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             active = False
-
-
+        
+    
         elif event.type == pygame.MOUSEBUTTONDOWN  :
            active_piece = MouseActions.OnPieceClicked(Pieces, event.pos,Board,Buttons, GameState.current_turn,client_team)
            if active_piece is not None:
@@ -83,7 +88,7 @@ while active:
              
 
         elif event.type == pygame.MOUSEBUTTONUP and active_piece is not None:
-            hasSnapped = MouseActions.snap_to_target(active_piece,50,current_socket)
+            hasSnapped = MouseActions.snap_to_target(active_piece,50,current_socket, Board)
             if not hasSnapped:
                active_piece.ABSOLUTE_X = (active_piece_start_loc[0])
                active_piece.ABSOLUTE_Y = (active_piece_start_loc[1])
@@ -95,7 +100,8 @@ while active:
             
             MouseActions.available_tiles_glob.clear()
             for tile in Board.tiles:
-                if tile.CachedImage is not None:
+                
+                if tile.CachedImage is not None and tile.Reset_Image == True:
                     tile.Image = tile.CachedImage
 
                 
@@ -110,6 +116,8 @@ while active:
             active_piece.Collider.y = mouse_y - offset_y
 
         Input.handle_event(event)
+        
+        
        
    
     
