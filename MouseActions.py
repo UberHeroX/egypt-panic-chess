@@ -42,7 +42,7 @@ def snap_to_target(piece, range, socket, Board):
                
                GameFunctions.can_eat_figure(piece, tile, tiles)
                update_piece_position(piece,tile,socket)
-               tile_to_change = GameFunctions.check_pawn(piece,Board.tiles)
+               tile_to_change = GameFunctions.get_piece_check(piece,Board.tiles)
                if tile_to_change is not None:
                  tile_to_change.CachedImage = tile_to_change.Image
                  tile_to_change.Image = Board.check_highlight

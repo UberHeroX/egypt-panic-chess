@@ -730,6 +730,47 @@ def king_move(Piece:Piece, tiles):
            if piece_tile.Team == team and piece_tile.Name != "King" :
              tiles_to_move.append(right_up_tile)
 
+     if Piece.HAS_MOVED == False:
+         current_tile = c_tile
+         rokade_tile = None
+         active_tile = None
+         for i in range(3):
+
+            if Tile.get_right_tile(current_tile, all_tiles) is not None:    
+                 active_tile= Tile.get_right_tile(current_tile, all_tiles)
+                 if is_piece_on_tile(active_tile) and i <=1:
+                  break
+                 elif is_piece_on_tile(active_tile) and i == 2:
+                     if piece_on_tile(active_tile, all_tiles).HAS_MOVED == False:
+                      tiles_to_move.append(rokade_tile)        
+                 if i == 1:
+                    rokade_tile = active_tile
+                 current_tile = active_tile
+
+         current_tile = c_tile
+         rokade_tile = None
+         active_tile = None
+
+         for i in range(4):
+
+              if Tile.get_left_tile(current_tile, all_tiles) is not None:    
+                 active_tile= Tile.get_left_tile(current_tile, all_tiles)
+                 if is_piece_on_tile(active_tile) and i <=2:
+                  break
+                 elif is_piece_on_tile(active_tile) and i == 3:
+                     if piece_on_tile(active_tile, all_tiles).HAS_MOVED == False:
+                      tiles_to_move.append(rokade_tile)        
+                 if i == 1:
+                  rokade_tile = active_tile
+                 current_tile = active_tile
+             
+
+
+                  
+            
+                    
+             
+
      return tiles_to_move
     
 def get_piece_available_tiles(Piece: Piece, tiles):

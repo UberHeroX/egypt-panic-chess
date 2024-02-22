@@ -88,7 +88,7 @@ while active:
              
 
         elif event.type == pygame.MOUSEBUTTONUP and active_piece is not None:
-            hasSnapped = MouseActions.snap_to_target(active_piece,50,current_socket, Board)
+            hasSnapped = MouseActions.snap_to_target(active_piece, 35,current_socket, Board)
             if not hasSnapped:
                active_piece.ABSOLUTE_X = (active_piece_start_loc[0])
                active_piece.ABSOLUTE_Y = (active_piece_start_loc[1])
