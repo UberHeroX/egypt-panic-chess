@@ -50,6 +50,7 @@ def snap_to_target(piece, range, socket, Board):
                  piece.Tile.CachedImage = piece.Tile.CachedImage
                  piece.Tile.Image = Board.check_highlight
                  piece.Tile.Reset_Image = False
+                 send_server_check(piece,tile_to_change, socket)
                else: 
                  for tile_image in Board.tiles:
                   tile_image.Reset_Image = True
@@ -75,6 +76,12 @@ def update_piece_position(piece, tile, socket):
     piece.Tile = tile
     tile.Piece = piece
     GameState.next_turn()
+
+def send_server_check(piece, tile,socket):
+    start_check_tile = piece.Tile.TileRegistry
+    checked_tile = tile.TileRegistry
+    check = {'command' : 'check', 'from':start_check_tile, 'to': checked_tile}
+    socket.sendall(json.dumps(check).encode('utf-8'))
 
 
 def update_piece_position_server(from_target, to_target, tiles):

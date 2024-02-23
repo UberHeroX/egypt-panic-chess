@@ -1,7 +1,7 @@
 import Pieces
 import socket
 import Tile
-
+import Board
 
 def can_eat_figure(Piece, Tile, tiles):
     if Pieces.piece_on_tile(Tile, tiles) is not None:
@@ -387,12 +387,6 @@ def check_queen(Piece, tiles):
         else:
          current_tile = tile_to_send
 
-
-
-    
-
-
-
 def get_piece_check(Piece, tiles):
     #
     check_tile= None
@@ -425,6 +419,18 @@ def get_piece_check(Piece, tiles):
             print("Cannot move")
           
     return check_tile
+
+def set_check_server(start_tile, end_tile, tiles):
+   
+   for tile in tiles:
+      if start_tile == tile.TileRegistry:
+        tile.CachedImage = tile.Image
+        tile.Image = Board.check_highlight
+        tile.Reset_Image = False
+      if end_tile == tile.TileRegistry:
+        tile.CachedImage = tile.Image
+        tile.Image = Board.check_highlight
+        tile.Reset_Image = False
 
 
         

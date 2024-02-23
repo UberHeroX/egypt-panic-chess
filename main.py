@@ -31,7 +31,7 @@ font= pygame.font.Font(font_path,24)
 ScrollBox = UI.UIScrollBox((700, 100),(300, 500),font,(0,0,0))
 Input = UI.UITextInput((700,600),(300,30),font,current_socket,(0,0,0),None, ScrollBox)
 Logo = UI.UIImage("./files/images/logo.png",(275,10),(500,75))
-
+is_in_check = False
 
 def connect_to_server():
         s= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -59,7 +59,10 @@ def chess_client_receive():
              elif command == 'chat':
                 print("asf")
                 ScrollBox.add_line(message.get('message'),(178, 68, 81))
-                
+             elif command == 'check':
+                global is_in_check
+                is_in_check = True
+                GameFunctions.set_check_server(message.get('from'),message.get('to'), Board.tiles)
 
          except json.JSONDecodeError as e:
           print(f"Error decoding JSON: {e}")
@@ -103,6 +106,7 @@ while active:
                 
                 if tile.CachedImage is not None and tile.Reset_Image == True:
                     tile.Image = tile.CachedImage
+                else: tile.Reset_Image = True
                 
 
                 

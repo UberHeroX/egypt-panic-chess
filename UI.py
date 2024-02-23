@@ -53,11 +53,9 @@ class UITextInput(UIElement):
         self.scrl_box = scrl_box
         self.deleting = False
         self.socket = socket_in
-        # Define the input box rect here based on position and size
         self.input_box = pygame.Rect(position[0], position[1], size[0], size[1])
     
     def draw(self, surface):
-        # Use self.input_box instead of creating a new Rect
         pygame.draw.rect(surface, self.background_color, self.input_box)
         text_surface = self.font.render(self.text, True, self.color)
         surface.blit(text_surface, (self.position[0] + 5, self.position[1] + 2))
@@ -67,9 +65,7 @@ class UITextInput(UIElement):
         
        
         if event.type == pygame.MOUSEBUTTONDOWN:
-            # Check if the user clicked on the self.input_box rect
             if self.input_box.collidepoint(event.pos):
-                # Toggle the active state
                 self.active = not self.active
                 self.text = "|"
             else:
@@ -83,7 +79,7 @@ class UITextInput(UIElement):
                 if len(self.text) == 1 and self.text == "|":
                     self.text = self.text[1:]
                     self.text += event.unicode
-                self.text += event.unicode  # Add the typed character
+                self.text += event.unicode  
         if event.type == pygame.KEYDOWN and self.active:
            if event.key == pygame.K_RETURN:
                self.active = False
@@ -107,7 +103,7 @@ class UIScrollBox(UIElement):
         self.color = color
         self.lines = []
         self.background_color = (253, 245, 230)
-        self.offset = 0  # Used for scrolling
+        self.offset = 0 
     
     class line:
         text = None
@@ -123,8 +119,8 @@ class UIScrollBox(UIElement):
     
     def draw(self, surface):
         box_rect = pygame.Rect(self.position, self.size)
-        pygame.draw.rect(surface, self.background_color, box_rect)  # Draw the background
-        for i, line in enumerate(self.lines[-10:]):  # Only draw the last 10 lines
+        pygame.draw.rect(surface, self.background_color, box_rect)  
+        for i, line in enumerate(self.lines[-10:]): 
             text_surface = self.font.render(line.text, True, line.color)
             surface.blit(text_surface, (self.position[0] + 5, self.position[1] + 5 + i * 20))
         super().draw(surface)
